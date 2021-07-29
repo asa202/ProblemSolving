@@ -1,25 +1,30 @@
 #include <vector>
 using namespace std;
-//brute force 
-void helper(vector<int> array, int &min, int idx, int jumps){
-	if(idx >= array.size()-1){
-		if(min > jumps){
-			min = jumps;
+//O(n^2) time
+int minNumberOfJumps(vector<int> array) {
+	if(array.size() == 1){
+		return 0;
+	}
+	int min = 1; 
+	for(int i = 0; i < array.size(); ){
+		int currentJump = i+array[i];int nextIdx = i;
+		if(currentJump >= array.size()-1){
+			return min;
 		}
-		return;
-	}else{
-		if(array[idx] == 1){
-			helper(array, min, idx+1, jumps+1);
-		}else{
-			for(int i = 1; i <=array[idx]; i++){
-				helper(array, min, idx+i, jumps+1);
+		for(int j = i+1; j <= i+array[i]; j++){
+			if(j+array[j] > currentJump){
+				currentJump = j+array[j];
+				nextIdx = j;
 			}
 		}
+		i = nextIdx;
+		if(nextIdx == array.size()-1){
+			return min;
+		}
+		min++;
+		if(currentJump >= array.size()-1){
+			return min;
+		}
 	}
-}
-
-int minNumberOfJumps(vector<int> array) {
-  int min = INT_MAX;
-	helper(array, min, 0, 0);
   return min;
 }
