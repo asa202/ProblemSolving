@@ -2,7 +2,6 @@
 using namespace std;
 //O(n) time | O(1) space
 int waterArea(vector<int> heights) {
-  // Write your code here.
 	if(heights.size() == 0){
 		return 0;
 	}
