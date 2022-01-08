@@ -47,6 +47,7 @@ public:
 //         }
         
 //         return newHead;
+        //O(n)time && O(1) space
         if(head == NULL){
             return NULL;
         }
