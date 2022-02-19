@@ -16,7 +16,7 @@ public:
     left = nullptr;
     right = nullptr;
   }
-
+// ALL three modes Average : O(logn) time and constant space ,Worst: O(n) time
   BST &insert(int val) {
     // Write your code here.
     // Do not edit the return statement of this method.
