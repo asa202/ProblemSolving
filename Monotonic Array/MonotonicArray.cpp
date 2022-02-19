@@ -1,5 +1,5 @@
 using namespace std;
-
+// O(n) time and constant space
 bool isMonotonic(vector<int> array) {
   // Write your code here.
 	bool flag_in = false;
