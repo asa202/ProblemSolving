@@ -44,6 +44,7 @@ class BST{
 			}
 		}
 };
+//Average : O(nlogn) time and O(n) space, Worst Case: O(n^2) time
 
 vector<int> rightSmallerThan(vector<int> array) {
 	if(array.size() == 0){
