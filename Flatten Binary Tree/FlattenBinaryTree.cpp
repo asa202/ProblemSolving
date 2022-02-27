@@ -1,6 +1,6 @@
 #include <vector>
 using namespace std;
-//O(n) time and O(n) space;
+//O(n) time and O(d) space
 // This is the class of the input root. Do not edit it.
 class BinaryTree {
 public:
@@ -10,28 +10,29 @@ public:
 
   BinaryTree(int value);
 };
-void helper(BinaryTree *root, vector<int> &array){
-	if(root->left){
-		helper(root->left, array);
+
+void helper(BinaryTree* node, BinaryTree* &rightMost){
+	if(node->left){
+		helper(node->left, rightMost);
 	}
-	array.push_back(root->value);
-	if(root->right){
-		helper(root->right, array);
+	if(rightMost){
+		node->left = rightMost;
+		rightMost->right = node;
 	}
+	rightMost = node;
+	if(node->right){
+		helper(node->right, rightMost);
+	}
+		
 }
+
 BinaryTree *flattenBinaryTree(BinaryTree *root) {
-  // Write your code here.
-	vector<int> array;
-	helper(root, array);
-	BinaryTree *left = new BinaryTree(array[0]);
-	BinaryTree *leftMost = left;
-	BinaryTree *right;
-	for(int i = 0 ; i < array.size()-1 ; i++){
-		right = new BinaryTree(array[i+1]);
-		left->right = right;
-		right->left = left;
-		left = right;
-		right = right->right;
+	BinaryTree* rightMost = nullptr;
+ 	helper(root, rightMost);
+	if(rightMost){
+		while(rightMost->left){
+			rightMost = rightMost->left;
+		}
 	}
-  return leftMost;
+  return rightMost;
 }
