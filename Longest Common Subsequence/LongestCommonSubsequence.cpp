@@ -1,35 +1,34 @@
 #include <vector>
 using namespace std;
-void fillMap(unordered_map<char,vector<int>> &map,const string &str){
-	for(int i = 0; i < str.size(); i++){
-		map[str[i]].push_back(i);
-	}
-}
-
+//O(n,m) time and space
 vector<char> longestCommonSubsequence(string str1, string str2) {
-	string shorter = str1.size() > str2.size() ? str2 :str1;
-	string longer =  str1.size() > str2.size() ? str1 :str2;
-	unordered_map<char,vector<int>> target;
-	fillMap(target, longer);
-	vector<char> reqVec{};
-	for(int i = shorter.size()-1; i >= 0; i --){
-		int targetIndex = INT_MAX;
-		vector<char> currVec{};
-		for(int j = i ; j >= 0; j--){
-			if(target.find(shorter[j])!= target.end()){
-				for(int k = target[shorter[j]].size()-1 ; k >= 0 ; k--){
-					if(target[shorter[j]][k] < targetIndex){
-						currVec.push_back(shorter[j]);
-						targetIndex = target[shorter[j]][k];
-						break;
-					}
-				}
+  vector<vector<int>> TwoDArray(str1.length()+1, vector<int> (str2.length()+1, 0));
+	for(int i = 1; i < str1.length()+1 ; i++){
+		for(int j = 1; j < str2.length()+1; j++){
+			if(str1[i-1] == str2[j-1]){
+				TwoDArray[i][j] = TwoDArray[i-1][j-1] + 1;
+			}else{
+				TwoDArray[i][j] = max(TwoDArray[i-1][j] , TwoDArray[i][j-1]);
 			}
 		}
-		if(currVec.size() > reqVec.size()){
-			reqVec = currVec;
+	}
+	
+	// creating lcs from 2d array
+	vector<char> req{};
+	int currentRow = str1.length() ; int currentCol = str2.length() ;
+	while(TwoDArray[currentRow][currentCol]!=0){
+		if(str1[currentRow-1] == str2[currentCol-1]){
+			req.push_back(str1[currentRow-1]);
+			currentRow--;
+			currentCol--;
+		}else{
+			currentRow = TwoDArray[currentRow-1][currentCol] < TwoDArray[currentRow][currentCol-1] ?
+				currentRow : currentRow-1 ;
+			currentCol = TwoDArray[currentRow-1][currentCol] < TwoDArray[currentRow][currentCol-1] ?
+				currentCol-1 : currentCol ;
 		}
 	}
-	std::reverse(reqVec.begin(),reqVec.end()); 
-  return reqVec;
+	std::reverse(req.begin(), req.end());
+  return req;
 }
+ 
